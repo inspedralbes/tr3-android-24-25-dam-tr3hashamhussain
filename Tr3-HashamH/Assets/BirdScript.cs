@@ -13,7 +13,7 @@ public class BirdScript : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space) == true){
-            rigidbody2D.linearVelocity = Vector2.up * flapStrength;
+            rigidbody2D.linearVelocity = Vector2.up * 20;
 
         }
 
