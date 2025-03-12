@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65b3f128a2911d43a648af0cd708305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logic: {fileID: 0}
 --- !u!1 &5541912848719117489
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +224,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.73, y: 21.04}
+  m_Size: {x: 5.5, y: 21.82}
   m_EdgeRadius: 0
 --- !u!1 &8607354425665905061
 GameObject:
@@ -357,7 +358,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.73, y: 21.04}
+  m_Size: {x: 5.4, y: 21.72}
   m_EdgeRadius: 0
 --- !u!1 &8815229132110690223
 GameObject:
