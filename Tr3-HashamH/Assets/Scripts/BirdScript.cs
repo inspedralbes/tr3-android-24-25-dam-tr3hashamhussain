@@ -15,13 +15,14 @@ public class BirdScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
+        // Detectar tanto la tecla de espacio como el clic derecho del mouse
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && birdIsAlive)
         {
             rigidbody2D.linearVelocity = Vector2.up * flapStrength;
         }
 
-        // Aplicar fuerza adicional hacia abajo cuando no se presiona la barra espaciadora
-        if (!Input.GetKey(KeyCode.Space) && birdIsAlive && rigidbody2D.linearVelocity.y < 0)
+        // Aplicar fuerza adicional hacia abajo cuando no se presiona la barra espaciadora ni el clic derecho
+        if (!Input.GetKey(KeyCode.Space) && !Input.GetMouseButton(0) && birdIsAlive && rigidbody2D.linearVelocity.y < 0)
         {
             rigidbody2D.linearVelocity += Vector2.down * downForceMultiplier * Time.deltaTime;
         }

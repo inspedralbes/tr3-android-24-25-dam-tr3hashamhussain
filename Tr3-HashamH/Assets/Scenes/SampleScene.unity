@@ -823,7 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pipe: {fileID: 8815229132110690223, guid: b248b0ff431433f4a9d9862a30ffcac1, type: 3}
-  spawnRate: 2.5
+  spawnRate: 2.09
   heightOffset: 10
 --- !u!4 &913292704
 Transform:
@@ -970,7 +970,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 1237834136}
-  flapStrength: 25
+  flapStrength: 13.31
+  downForceMultiplier: 1.5
   logic: {fileID: 0}
   birdIsAlive: 1
 --- !u!58 &1237834138
@@ -1008,7 +1009,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.03, y: -0.45}
-  m_Radius: 1.91
+  m_Radius: 1.66
 --- !u!1 &1776671183
 GameObject:
   m_ObjectHideFlags: 0
