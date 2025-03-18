@@ -1,0 +1,16 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UnityThemes/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=b6a13b0cd975ddd4ca9df9bc2a5608a6&amp;type=3#MainMenuStyle" />
+    
+    <engine:VisualElement name="main-container" style="flex-grow: 1; justify-content: center; align-items: center;">
+        <!-- Título del juego -->
+        <engine:Label text="Angry-Flappy" name="Flappy-AN" class="Text title" />
+        
+        <!-- Contenedor de botones -->
+        <engine:VisualElement name="button-container" class="button-container">
+            <engine:Button text="Fàcil" name="btn-facil" class="menu-button" />
+            <engine:Button text="Normal" name="btn-normal" class="menu-button" />
+            <engine:Button text="Difícil" name="btn-dificil" class="menu-button" />
+            <engine:Button text="Multijugador" name="btn-multijugador" class="menu-button" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
