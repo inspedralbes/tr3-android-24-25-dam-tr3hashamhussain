@@ -3,7 +3,7 @@ using UnityEngine;
 public class BirdScript : MonoBehaviour
 {
     public Rigidbody2D rigidbody2D;
-    public float flapStrength;
+    public float flapStrength = 10; // Hacer pública esta variable
     public float downForceMultiplier = 1.5f; // Multiplicador de fuerza hacia abajo
     public LogicScript logic;
     public bool birdIsAlive = true;
@@ -30,7 +30,7 @@ public class BirdScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        logic.gameOver();
+        logic.gameOver(); // Llamar al método gameOver en LogicScript
         birdIsAlive = false;
     }
 }
