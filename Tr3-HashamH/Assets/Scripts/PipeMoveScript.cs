@@ -1,19 +1,15 @@
 using UnityEngine;
 
 public class PipeMoveScript : MonoBehaviour
-{    
-public float moveSpeed = 5;
-public float deadZone = -35;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+{
+    public float moveSpeed = 9.5f; // Velocidad fija de las tuberías
+    public float deadZone = -35;
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
+        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+
+        // Eliminar la tubería si sale de la pantalla
         if (transform.position.x < deadZone)
         {
             Debug.Log("Pipe Eliminado");
