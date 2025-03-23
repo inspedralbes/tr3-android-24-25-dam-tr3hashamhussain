@@ -30,6 +30,16 @@ public class BirdScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Verificar si el jugador chocó con un enemigo
+    if (collision.gameObject.CompareTag("Enemy")) // Asegúrate de que los enemigos tengan el tag "Enemy"
+    {
+        // Reproducir el sonido del enemigo
+        AudioSource enemyAudio = collision.gameObject.GetComponent<AudioSource>();
+        if (enemyAudio != null && !enemyAudio.isPlaying)
+        {
+            enemyAudio.Play(); // Reproducir el sonido
+        }
+    }
         logic.gameOver();
         birdIsAlive = false;
     }
