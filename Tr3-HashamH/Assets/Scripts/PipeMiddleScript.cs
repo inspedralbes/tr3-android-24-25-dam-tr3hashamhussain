@@ -13,7 +13,7 @@ public class PipeMiddleScript : MonoBehaviour
     {
         if (collision.gameObject.layer == 3) // Verificar si es el pájaro
         {
-            logic.addScore(1); // Aumentar el puntaje
+            logic.AddScore(1); // Aumentar el puntaje
         }
     }
 }

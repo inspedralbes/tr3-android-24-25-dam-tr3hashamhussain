@@ -9,72 +9,70 @@ public class LogicScript : MonoBehaviour
 {
     public GameObject winScreen;
     public GameObject gameOverScreen;
-    public int playerScore;
     public Text scoreText;
     public int pipesToWin = 15;
     public PipeSpawnScript pipeSpawnScript;
     public BirdScript birdScript;
-
-    private string playerId; // ID único del jugador
-    private string playerName = "Jugador"; // Nombre predeterminado
+    
+    private string playerId;
+    private string playerName = "Jugador";
+    private int playerScore = 0;
 
     void Start()
     {
-        // Generar un ID único para el jugador
         playerId = Guid.NewGuid().ToString();
-
-        // Configurar valores iniciales para el nivel fácil
-        if (SceneManager.GetActiveScene().name == "M-Facil")
-        {
-            pipeSpawnScript.spawnRate = 2.5f;
-            birdScript.flapStrength = 14f;
-        }
+        UpdateScoreDisplay();
     }
 
-    [ContextMenu("Increase Score")]
-    public void addScore(int scoreToAdd)
+    public void AddScore(int scoreToAdd)
     {
         playerScore += scoreToAdd;
-        scoreText.text = playerScore.ToString();
+        UpdateScoreDisplay();
 
-        // Verificar si el jugador ha ganado
         if (playerScore >= pipesToWin)
         {
             WinGame();
         }
     }
 
-    public void restartGame()
+    void UpdateScoreDisplay()
+    {
+        if (scoreText != null)
+            scoreText.text = playerScore.ToString();
+    }
+
+    public void RestartGame()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void gameOver()
+    public void GameOver()
     {
-        gameOverScreen.SetActive(true);
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(true);
+        
         Time.timeScale = 0;
         SendStatToBackend();
     }
 
     public void WinGame()
     {
-        winScreen.SetActive(true);
+        if (winScreen != null)
+            winScreen.SetActive(true);
+        
         Time.timeScale = 0;
         SendStatToBackend();
     }
 
-    // Método para enviar estadísticas al backend
     private void SendStatToBackend()
     {
-        int jumps = birdScript.jumps; // Obtener el número de saltos
-        int pipesPassed = playerScore; // Tuberías pasadas
-        string gameMode = SceneManager.GetActiveScene().name; // Modo de juego
-
-        StartCoroutine(SendStat(playerId, playerName, jumps, pipesPassed, gameMode));
+        int jumps = birdScript != null ? birdScript.jumps : 0;
+        string gameMode = SceneManager.GetActiveScene().name;
+        
+        StartCoroutine(SendStat(playerId, playerName, jumps, playerScore, gameMode));
     }
 
-    // Coroutine para enviar estadísticas al backend
     private IEnumerator SendStat(string playerId, string playerName, int jumps, int pipesPassed, string gameMode)
     {
         WWWForm form = new WWWForm();
@@ -88,7 +86,7 @@ public class LogicScript : MonoBehaviour
         {
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Error al enviar estadísticas: " + webRequest.error);
             }

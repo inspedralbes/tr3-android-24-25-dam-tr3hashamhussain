@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7366bb0e05453a4a9918d3851f57007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDistance: 4
+  moveDistance: 6
 --- !u!60 &5622433954813640292
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d0abacbc8216894db1828b72079202f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDistance: 4
+  moveDistance: 6
 --- !u!60 &5763795173489151374
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -818,7 +818,7 @@ Transform:
   m_GameObject: {fileID: 7942980907401138495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.9, y: -1.23, z: 0}
+  m_LocalPosition: {x: -17, y: -1.23, z: 0}
   m_LocalScale: {x: 1, y: 4.4982004, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1067,5 +1067,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1872c0506169a09499283cd56eaef3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 21.7
+  moveSpeed: 15
   deadZone: -35

@@ -2,17 +2,50 @@ using UnityEngine;
 
 public class PipeMoveScript : MonoBehaviour
 {
-    public float moveSpeed = 9.5f; // Velocidad fija de las tuberías
-    public float deadZone = -35;
+    [SerializeField] private float moveSpeed = 9.5f;
+    public float deadZone = -35f;
+    
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set
+        {
+            if (Mathf.Abs(moveSpeed - value) > 0.01f)
+            {
+                moveSpeed = value;
+                Debug.Log($"{gameObject.name} velocidad actualizada: {moveSpeed}");
+            }
+        }
+    }
 
     void Update()
     {
         transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 
-        // Eliminar la tubería si sale de la pantalla
         if (transform.position.x < deadZone)
         {
-            Debug.Log("Pipe Eliminado");
+            DestroyPipe();
+        }
+    }
+
+    void OnEnable()
+    {
+        var loader = FindObjectOfType<GameSettingsLoader>();
+        if (loader != null) loader.RegisterPipe(this);
+    }
+
+    void OnDisable()
+    {
+        DestroyPipe();
+    }
+
+    void DestroyPipe()
+    {
+        var loader = FindObjectOfType<GameSettingsLoader>();
+        if (loader != null) loader.UnregisterPipe(this);
+        
+        if (gameObject != null)
+        {
             Destroy(gameObject);
         }
     }

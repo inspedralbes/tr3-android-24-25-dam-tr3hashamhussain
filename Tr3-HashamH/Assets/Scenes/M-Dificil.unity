@@ -316,6 +316,7 @@ MonoBehaviour:
   pipeEnemy: {fileID: 8815229132110690223, guid: 7fae751a312cbd94597a0d34dfaf7b55, type: 3}
   spawnRate: 1
   heightOffset: 8
+  enemySpawnChance: 25
 --- !u!4 &79466089
 Transform:
   m_ObjectHideFlags: 0
@@ -664,9 +665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e9b036eb2bcef42ad7512e9309406a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettingsUrl: http://localhost:3000/game-settings
+  settingsUrl: http://localhost:3000/game-settings
   birdScript: {fileID: 1592315587}
   pipeSpawnScript: {fileID: 79466088}
+  checkInterval: 3
 --- !u!4 &517184971
 Transform:
   m_ObjectHideFlags: 0
@@ -6321,9 +6323,10 @@ GameObject:
   - component: {fileID: 1592315589}
   - component: {fileID: 1592315588}
   - component: {fileID: 1592315587}
+  - component: {fileID: 1592315591}
   m_Layer: 3
   m_Name: Bird
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6372,7 +6375,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f5f1ca7f8aebc40c08012b91a6f32230, type: 3}
+  m_Sprite: {fileID: 5978898516894778253, guid: 17c558ddb31742c42894aa507b18c308, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6479,6 +6482,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1592315591
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592315585}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2f10fe7765368fe4eb7283d444aab727, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1610204047
 GameObject:
   m_ObjectHideFlags: 0
@@ -6872,9 +6897,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winScreen: {fileID: 1012340640}
   gameOverScreen: {fileID: 1610204047}
-  playerScore: 0
   scoreText: {fileID: 1130982677}
-  pipesToWin: 999
+  pipesToWin: 50
   pipeSpawnScript: {fileID: 79466088}
   birdScript: {fileID: 1592315587}
 --- !u!4 &1980049143

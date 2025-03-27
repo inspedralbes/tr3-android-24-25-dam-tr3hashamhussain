@@ -3,14 +3,21 @@ using UnityEngine;
 public class PipeSpawnScript : MonoBehaviour
 {
     public GameObject pipe;
-    public GameObject pipeEnemy; // Añadir referencia al prefab PipeEnemy
-    public float spawnRate = 2; // Hacer pública esta variable
-    private float timer = 0;
-    public float heightOffset = 10;
+    public GameObject pipeEnemy;
+    public float spawnRate = 2f;
+    public float heightOffset = 10f;
+    [Range(0, 100)] public int enemySpawnChance = 25;
+    
+    private float timer = 0f;
+    private GameSettingsLoader settingsLoader;
 
     void Start()
     {
-        spawnPipe();
+        settingsLoader = FindObjectOfType<GameSettingsLoader>();
+        if (settingsLoader == null)
+        {
+            Debug.LogError("GameSettingsLoader no encontrado en la escena!");
+        }
     }
 
     void Update()
@@ -21,25 +28,44 @@ public class PipeSpawnScript : MonoBehaviour
         }
         else
         {
-            spawnPipe();
-            timer = 0;
+            SpawnPipe();
+            timer = 0f;
         }
     }
 
-    void spawnPipe()
+    void SpawnPipe()
     {
-        float lowestPoint = transform.position.y - heightOffset;
-        float highestPoint = transform.position.y + heightOffset;
-        Vector3 spawnPosition = new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0);
+        if (pipe == null) return;
 
-        // 25% de probabilidad de spawnear un PipeEnemy
-        if (Random.Range(0, 100) < 25)
+        Vector3 spawnPos = new Vector3(
+            transform.position.x,
+            Random.Range(transform.position.y - heightOffset, transform.position.y + heightOffset),
+            0
+        );
+
+        GameObject newPipe = Instantiate(
+            ShouldSpawnEnemy() ? pipeEnemy : pipe,
+            spawnPos,
+            Quaternion.identity
+        );
+
+        ApplyCurrentSettings(newPipe);
+    }
+
+    bool ShouldSpawnEnemy()
+    {
+        return pipeEnemy != null && Random.Range(0, 100) < enemySpawnChance;
+    }
+
+    void ApplyCurrentSettings(GameObject pipeObj)
+    {
+        if (settingsLoader == null || settingsLoader.lastSettings == null) return;
+
+        var moveScript = pipeObj.GetComponent<PipeMoveScript>();
+        if (moveScript != null)
         {
-            Instantiate(pipeEnemy, spawnPosition, transform.rotation);
-        }
-        else
-        {
-            Instantiate(pipe, spawnPosition, transform.rotation);
+            moveScript.MoveSpeed = settingsLoader.lastSettings.pipeMoveSpeed;
+            Debug.Log($"Tubería creada con velocidad: {moveScript.MoveSpeed}");
         }
     }
 }
