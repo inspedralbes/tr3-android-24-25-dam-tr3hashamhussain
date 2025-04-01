@@ -1,0 +1,17 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xmlns:engine="UnityEngine.UIElements" 
+             xmlns:editor="UnityEditor.UIElements" 
+             noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" 
+             editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UnityThemes/PauseMenuStyle.uss?fileID=7433441132597879392&amp;guid=f85274c852a1d7c48a4a03a75bafbc9e&amp;type=3#PauseMenuStyle" />
+    
+    <engine:VisualElement name="PauseMenu" class="pause-menu">
+        <engine:VisualElement class="menu-container">
+            <engine:Label class="menu-title" text="PAUSE MENU" />
+            
+            <engine:Button class="button" name="ResumeButton" text="Resumir Joc" />
+            <engine:Button class="button" name="OptionsButton" text="Opcions" />
+            <engine:Button class="button" name="MainMenuButton" text="Sortir" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

@@ -13,19 +13,39 @@ public class LogicScript : MonoBehaviour
     public int pipesToWin = 15;
     public PipeSpawnScript pipeSpawnScript;
     public BirdScript birdScript;
-    
+    public Button restartButton; // Referencia explícita al botón
+    public Button restartWinButton; // Referencia explícita al botón
+    public Button exitButton; // Nuevo botón de salir
+    public Button exitWinButton; // Nuevo botón de salir en win screen
     private string playerId;
     private string playerName = "Jugador";
     private int playerScore = 0;
+    private bool gameEnded = false;
 
     void Start()
     {
         playerId = Guid.NewGuid().ToString();
         UpdateScoreDisplay();
+        
+        // Configurar el botón de reinicio si está asignado
+        if (restartButton != null)
+            restartButton.onClick.AddListener(RestartGame);
+            
+        if (restartWinButton != null)
+            restartWinButton.onClick.AddListener(RestartGame);
+            
+        // Configurar botones de salir
+        if (exitButton != null)
+            exitButton.onClick.AddListener(GoToMainMenu);
+            
+        if (exitWinButton != null)
+            exitWinButton.onClick.AddListener(GoToMainMenu);
     }
 
     public void AddScore(int scoreToAdd)
     {
+        if (gameEnded) return;
+        
         playerScore += scoreToAdd;
         UpdateScoreDisplay();
 
@@ -43,12 +63,21 @@ public class LogicScript : MonoBehaviour
 
     public void RestartGame()
     {
+        // Asegurarse de que el tiempo se reanude
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        // Recargar la escena actual
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+        // Alternativa: SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GameOver()
     {
+        if (gameEnded) return;
+        
+        gameEnded = true;
+        
         if (gameOverScreen != null)
             gameOverScreen.SetActive(true);
         
@@ -58,6 +87,10 @@ public class LogicScript : MonoBehaviour
 
     public void WinGame()
     {
+        if (gameEnded) return;
+        
+        gameEnded = true;
+        
         if (winScreen != null)
             winScreen.SetActive(true);
         
@@ -95,5 +128,13 @@ public class LogicScript : MonoBehaviour
                 Debug.Log("Estadísticas enviadas correctamente");
             }
         }
+    }
+     public void GoToMainMenu()
+    {
+        // Asegurarse de que el tiempo se reanude
+        Time.timeScale = 1;
+        
+        // Cargar la escena del menú principal
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,26 +1,83 @@
-.title {
-    font-size: 48px;
-    color: #FFFFFF;
-    margin-bottom: 40px;
+/* Estilos base */
+.main-container {
+    flex-grow: 1;
+    justify-content: flex-start; /* Cambiado a flex-start para mover título arriba */
+    align-items: center;
+    background-color: #1a1a2e;
+    padding-top: 80px; /* Espacio superior adicional */
 }
 
+/* Título del juego más arriba y grande */
+.game-title {
+    font-size: 82px; /* Tamaño aumentado */
+    color: #fff;
+    margin-bottom: 80px; /* Espacio aumentado debajo del título */
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-top: 40px; /* Espacio superior adicional */
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+/* Contenedor de botones con más espacio */
 .button-container {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 35px; /* Espacio entre botones aumentado */
+    padding: 40px; /* Relleno aumentado */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px; /* Espacio entre título y botones */
 }
 
+/* Botones más grandes con más espacio interno */
 .menu-button {
-    width: 200px;
-    height: 50px;
-    background-color: #4CAF50;
-    color: #FFFFFF;
-    font-size: 18px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
+    min-width: 280px; /* Ancho aumentado */
+    height: 70px; /* Altura aumentada */
+    font-size: 22px; /* Texto más grande */
+    border-radius: 10px; /* Bordes más redondeados */
+    padding: 0 30px; /* Espacio interno horizontal */
+    margin: 10px 0; /* Espacio vertical entre botones */
 }
 
+/* Efecto hover más pronunciado */
 .menu-button:hover {
-    background-color: #45a049;
+    transform: translateY(-5px); /* Movimiento más notable */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Colores específicos para cada botón (mantenidos) */
+.easy { background-color: #4CAF50; }
+.normal { background-color: #2196F3; }
+.hard { background-color: #f44336; }
+.custom { background-color: #9C27B0; }
+.exit { background-color: #ff5252; }
+
+/* Footer más discreto */
+.footer-text {
+    position: absolute;
+    bottom: 30px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+/* Animación de título mejorada */
+@keyframes titleGlow {
+    from { text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.1); }
+    to { text-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,215,0,0.3); }
+}
+
+/* Fondo animado más suave */
+.animated-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite; /* Animación más lenta */
+    opacity: 0.9;
+    z-index: -1;
 }
