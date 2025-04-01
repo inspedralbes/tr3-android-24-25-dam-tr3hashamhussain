@@ -6,13 +6,10 @@
     <Style src="project://database/Assets/UI%20Toolkit/UnityThemes/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=b6a13b0cd975ddd4ca9df9bc2a5608a6&amp;type=3#MainMenuStyle" />
     
     <engine:VisualElement name="main-container" class="main-container">
-        <!-- Fondo animado -->
-        <engine:VisualElement name="background" class="animated-background" />
-        
         <!-- Título del juego -->
         <engine:Label text="Angry-Flappy" name="game-title" class="game-title" />
         
-        <!-- Contenedor de botones -->
+        <!-- Contenedor de botones con más espacio -->
         <engine:VisualElement name="button-container" class="button-container">
             <engine:Button text="Fàcil" name="btn-facil" class="menu-button easy" />
             <engine:Button text="Normal" name="btn-normal" class="menu-button normal" />
@@ -21,7 +18,5 @@
             <engine:Button text="Sortir" name="btn-exit" class="menu-button exit" />
         </engine:VisualElement>
         
-        <!-- Footer con más espacio -->
-        <engine:Label text="© 2023 Angry-Flappy" class="footer-text" />
-    </engine:VisualElement>
+        </engine:VisualElement>
 </engine:UXML>
