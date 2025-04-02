@@ -4,44 +4,52 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using System.Collections;
 using System;
+using System.Text;
 
 public class LogicScript : MonoBehaviour
 {
+    // Tus variables públicas originales
     public GameObject winScreen;
     public GameObject gameOverScreen;
     public Text scoreText;
     public int pipesToWin = 15;
     public PipeSpawnScript pipeSpawnScript;
     public BirdScript birdScript;
-    public Button restartButton; // Referencia explícita al botón
-    public Button restartWinButton; // Referencia explícita al botón
-    public Button exitButton; // Nuevo botón de salir
-    public Button exitWinButton; // Nuevo botón de salir en win screen
+    public Button restartButton;
+    public Button restartWinButton;
+    public Button exitButton;
+    public Button exitWinButton;
+    
     private string playerId;
     private string playerName = "Jugador";
     private int playerScore = 0;
     private bool gameEnded = false;
+    private float lastStatUpdateTime = 0f;
+    private const float statUpdateInterval = 5f; // Actualizar cada 5 segundos
 
     void Start()
     {
-        playerId = Guid.NewGuid().ToString();
+        playerId = SystemInfo.deviceUniqueIdentifier;
         UpdateScoreDisplay();
         
-        // Configurar el botón de reinicio si está asignado
-        if (restartButton != null)
-            restartButton.onClick.AddListener(RestartGame);
-            
-        if (restartWinButton != null)
-            restartWinButton.onClick.AddListener(RestartGame);
-            
-        // Configurar botones de salir
-        if (exitButton != null)
-            exitButton.onClick.AddListener(GoToMainMenu);
-            
-        if (exitWinButton != null)
-            exitWinButton.onClick.AddListener(GoToMainMenu);
+        // Configuración de botones original
+        if (restartButton != null) restartButton.onClick.AddListener(RestartGame);
+        if (restartWinButton != null) restartWinButton.onClick.AddListener(RestartGame);
+        if (exitButton != null) exitButton.onClick.AddListener(GoToMainMenu);
+        if (exitWinButton != null) exitWinButton.onClick.AddListener(GoToMainMenu);
     }
 
+    void Update()
+    {
+        // Sistema de polling para actualizaciones
+        if (Time.time - lastStatUpdateTime > statUpdateInterval)
+        {
+            lastStatUpdateTime = Time.time;
+            StartCoroutine(CheckForUpdates());
+        }
+    }
+
+    // Tus métodos originales sin cambios
     public void AddScore(int scoreToAdd)
     {
         if (gameEnded) return;
@@ -63,13 +71,8 @@ public class LogicScript : MonoBehaviour
 
     public void RestartGame()
     {
-        // Asegurarse de que el tiempo se reanude
         Time.timeScale = 1;
-        
-        // Recargar la escena actual
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        
-        // Alternativa: SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GameOver()
@@ -77,12 +80,9 @@ public class LogicScript : MonoBehaviour
         if (gameEnded) return;
         
         gameEnded = true;
-        
-        if (gameOverScreen != null)
-            gameOverScreen.SetActive(true);
-        
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
         Time.timeScale = 0;
-        SendStatToBackend();
+        StartCoroutine(SendStatToBackend());
     }
 
     public void WinGame()
@@ -90,51 +90,80 @@ public class LogicScript : MonoBehaviour
         if (gameEnded) return;
         
         gameEnded = true;
-        
-        if (winScreen != null)
-            winScreen.SetActive(true);
-        
+        if (winScreen != null) winScreen.SetActive(true);
         Time.timeScale = 0;
-        SendStatToBackend();
+        StartCoroutine(SendStatToBackend());
     }
 
-    private void SendStatToBackend()
+    private IEnumerator SendStatToBackend()
+{
+    int jumps = birdScript != null ? birdScript.jumps : 0;
+    string gameMode = SceneManager.GetActiveScene().name;
+    
+    StatData statData = new StatData
     {
-        int jumps = birdScript != null ? birdScript.jumps : 0;
-        string gameMode = SceneManager.GetActiveScene().name;
+        playerId = playerId,
+        playerName = playerName,
+        jumps = jumps,
+        pipesPassed = playerScore,
+        gameMode = gameMode
+    };
+
+    string jsonData = JsonUtility.ToJson(statData);
+    string url = "http://localhost:3300/stats";
+    
+    using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
+    {
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+        webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
         
-        StartCoroutine(SendStat(playerId, playerName, jumps, playerScore, gameMode));
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Error al enviar estadísticas: " + webRequest.error);
+        }
+        else
+        {
+            Debug.Log("Estadísticas enviadas correctamente");
+            
+            // Opcional: Verificar actualización inmediata
+            StartCoroutine(CheckForUpdates());
+        }
     }
+}
 
-    private IEnumerator SendStat(string playerId, string playerName, int jumps, int pipesPassed, string gameMode)
+    private IEnumerator CheckForUpdates()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("playerId", playerId);
-        form.AddField("playerName", playerName);
-        form.AddField("jumps", jumps);
-        form.AddField("pipesPassed", pipesPassed);
-        form.AddField("gameMode", gameMode);
-
-        using (UnityWebRequest webRequest = UnityWebRequest.Post("http://localhost:3000/stats", form))
+        string url = "http://localhost:3300/stats/recent";
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result != UnityWebRequest.Result.Success)
+            if (webRequest.result == UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Error al enviar estadísticas: " + webRequest.error);
-            }
-            else
-            {
-                Debug.Log("Estadísticas enviadas correctamente");
+                // Aquí podrías procesar la respuesta si necesitas algo específico
+                Debug.Log("Comprobación de actualizaciones exitosa");
             }
         }
     }
-     public void GoToMainMenu()
+
+    public void GoToMainMenu()
     {
-        // Asegurarse de que el tiempo se reanude
         Time.timeScale = 1;
-        
-        // Cargar la escena del menú principal
         SceneManager.LoadScene("MainMenu");
+    }
+
+    [System.Serializable]
+    private class StatData
+    {
+        public string playerId;
+        public string playerName;
+        public int jumps;
+        public int pipesPassed;
+        public string gameMode;
     }
 }

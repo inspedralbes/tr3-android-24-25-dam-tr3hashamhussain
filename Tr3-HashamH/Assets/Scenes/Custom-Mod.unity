@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e9b036eb2bcef42ad7512e9309406a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsUrl: http://localhost:3000/game-settings
+  settingsUrl: http://localhost:3400/game-settings
   birdScript: {fileID: 1592315587}
   pipeSpawnScript: {fileID: 79466088}
   checkInterval: 3
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fd022ea091c374d805969639cde51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinUrl: http://localhost:3000/current-skin
+  skinUrl: http://localhost:3200/current-skin
   birdSpriteRenderer: {fileID: 1592315586}
   defaultSkin: {fileID: 5978898516894778253, guid: 17c558ddb31742c42894aa507b18c308, type: 3}
 --- !u!4 &913339632
