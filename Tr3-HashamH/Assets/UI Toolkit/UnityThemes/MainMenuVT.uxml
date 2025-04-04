@@ -1,0 +1,22 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xmlns:engine="UnityEngine.UIElements" 
+             xmlns:editor="UnityEditor.UIElements" 
+             noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" 
+             editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UnityThemes/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=b6a13b0cd975ddd4ca9df9bc2a5608a6&amp;type=3#MainMenuStyle" />
+    
+    <engine:VisualElement name="main-container" class="main-container">
+        <!-- Título del juego -->
+        <engine:Label text="Angry-Flappy" name="game-title" class="game-title" />
+        
+        <!-- Contenedor de botones con más espacio -->
+        <engine:VisualElement name="button-container" class="button-container">
+            <engine:Button text="Fàcil" name="btn-facil" class="menu-button easy" />
+            <engine:Button text="Normal" name="btn-normal" class="menu-button normal" />
+            <engine:Button text="Difícil" name="btn-dificil" class="menu-button hard" />
+            <engine:Button text="Nivell personalitzat" name="btn-custom" class="menu-button custom" />
+            <engine:Button text="Sortir" name="btn-exit" class="menu-button exit" />
+        </engine:VisualElement>
+        
+        </engine:VisualElement>
+</engine:UXML>
